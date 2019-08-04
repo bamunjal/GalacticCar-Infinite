@@ -10,7 +10,7 @@ public class SkyboxChanger : MonoBehaviour
 
     void Start()
     {
-        RenderSettings.skybox = skybox;  
+        RenderSettings.skybox = skybox;
     }
 
     void Update()
@@ -18,9 +18,12 @@ public class SkyboxChanger : MonoBehaviour
         float blend = Mathf.PingPong(0.1f * Time.time, 1.0f);
         RenderSettings.skybox.SetFloat("_Blend", blend);
 
-        if (blend == 0f)
+        if (blend.ToString("0.0").Equals("1.0"))
         {
             LoadSkybox(1, (Random.Range(1, SkyboxLength)).ToString());
+        }
+        else if (blend.ToString("0.0").Equals("0.0"))
+        {
             LoadSkybox(2, (Random.Range(1, SkyboxLength)).ToString());
         }
     }

@@ -6,39 +6,33 @@ public class SkyboxChanger : MonoBehaviour
 {
 
     public Material skybox;
-    public Texture2D front;
+    public int SkyboxLength = 7;
 
     void Start()
     {
-        RenderSettings.skybox = skybox;
-        // StartCoroutine(SkyboxChange());
-        LoadSkybox("1");
-        LoadSkybox("2");
+        RenderSettings.skybox = skybox;  
     }
 
     void Update()
     {
-        float blend = Mathf.PingPong(0.01f * Time.time, 1.0f);
+        float blend = Mathf.PingPong(0.1f * Time.time, 1.0f);
         RenderSettings.skybox.SetFloat("_Blend", blend);
+
+        if (blend == 0f)
+        {
+            LoadSkybox(1, (Random.Range(1, SkyboxLength)).ToString());
+            LoadSkybox(2, (Random.Range(1, SkyboxLength)).ToString());
+        }
     }
 
-    private void LoadSkybox(string SkyboxNumber)
+    private void LoadSkybox(int SkyboxNumber, string TextureNumber)
     {
-        skybox.SetTexture("_FrontTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Front"));
-        skybox.SetTexture("_BackTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Back"));
-        skybox.SetTexture("_LeftTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Left"));
-        skybox.SetTexture("_RightTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Right"));
-        skybox.SetTexture("_UpTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Up"));
-        skybox.SetTexture("_DownTex" + SkyboxNumber, (Texture2D)Resources.Load(SkyboxNumber + "_Down"));
+        skybox.SetTexture("_FrontTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Front"));
+        skybox.SetTexture("_BackTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Back"));
+        skybox.SetTexture("_LeftTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Left"));
+        skybox.SetTexture("_RightTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Right"));
+        skybox.SetTexture("_UpTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Up"));
+        skybox.SetTexture("_DownTex" + SkyboxNumber, (Texture2D)Resources.Load(TextureNumber + "_Down"));
     }
 
-    // private IEnumerator SkyboxChange()
-    // {
-    //     while (true)
-    //     {
-    //         Material CurrentSkybox= RenderSettings.skybox;
-    //         RenderSettings.skybox.Lerp(skyboxes[0],skyboxes[1],10f * Time.deltaTime);
-    //         yield return new WaitForSeconds(50);
-    //     }
-    // }
 }
